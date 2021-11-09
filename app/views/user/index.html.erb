@@ -1,0 +1,31 @@
+<% name = current_user.present? ? current_user.email : 'stranger' %>
+<h1 class="text-center">Welcome,<i><%= name %></i></h1><br>
+<div>
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Show</th>
+        </tr>
+    <thead>
+    <% @albums.each do |album| %>
+    <tr>
+    <td>
+    <%= album.name %>
+    </td>
+        <td> <%= album.description %></td>
+        <td id="edit"> <%= link_to "Edit", edit_album_path(album) %> 
+        </td>
+        <td id="delete">
+        <%= link_to "Delete", album_path(album), method: :delete%> 
+        </td>
+        <td id="show">
+        <%= link_to "show", album_path(album)%> 
+        </td>
+    </tr>
+    <% end %>
+    </table><br/><br/>
+<%= link_to "New Album", new_album_path ,class: 'btn btn-primary'%><br>

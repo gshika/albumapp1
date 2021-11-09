@@ -1,0 +1,13 @@
+<%= form_for([@album,@album.comments.build]) do |form| %>
+ <label>
+ <%= form.label :name %><br>
+ <%= form.text_field :name %>
+ </label><br>
+<label>
+ <%= form.label :body %><br>
+ <%= form.text_area :body %>
+ </label><br>
+<label>
+ <%= form.submit class: 'btn btn-primary' %>
+ </label>
+<% end %>

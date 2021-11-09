@@ -1,0 +1,148 @@
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js"></script>
+<style>
+.bootstrap-tagsinput .tag {
+   background: red;
+   padding: 4px;
+   font-size: 14px;
+}
+.tags_show{
+    border: 2px solid #a5d24a;
+    text-decoration: none;
+    background: #cde69c;
+    color: black;
+    margin-right:7px;
+    margin-bottom: 5px;
+    font-family: helvetica;
+    font-size: 18px;
+    min-width: 5px;
+}
+
+
+</style>
+<div style="width:auto;height:auto;margin-left:40vh">
+<p>
+<strong><label>Name:</label></strong>
+<%= @album.name%>
+</p>
+<p>
+<strong><label>Description:</label></strong>
+<%= @album.description%>
+</p>
+<p>
+<strong><label>Photos:</label></strong><br>
+    <% if @album.images.attached? %>
+    <div class="row row-cols-1 row-cols-md-3">
+    <% @album.images.each do |image| %>
+    <div class="col-md-3">
+        <div class="card h-100">
+    <%= image_tag image, width: "auto",height: "180px",padding: "5px"%>
+    <div class="card-body">
+    <% @tag.each do |t| %>
+        <% if image.blob_id == t.blob_id %>
+            <% t.tagged.split(",").each do |i|%>
+                <span class="tags_show"><%= i %> </span>
+            <% end %>
+        <% end %>
+    <% end %>
+            <h5 class="card-title">
+ <button type="button" checkid="<%=image.blob_id%>" class="btn btn-primary btn-lg tagitem"  data-toggle="modal" >Add Tags</button>
+            <div class="btn btn-danger">
+        
+            <%= link_to 'Delete',delete_image_attachment_album_url(image),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' },:class => "btn"%>
+            </div>
+             </h5>
+          </div>
+        </div>
+      </div>
+    <% end %>
+<% end %>
+</p>
+</div>
+
+<br>
+<br>
+
+<h2><pre><%= @album.comments.count %>  Comments</pre></h2> 
+
+<%= render @album.comments %>
+<h3>Add Comments:</h3>
+<%= render 'comments/form'%>
+</div>
+<script>                    
+     $(document).ready(function(){
+        $(".tagitem").click(function(){
+            var imageid = $(this).attr("checkid");
+             $("#exampleModalCenter").modal('show');
+             $(".blob").val(imageid);
+            // $(".mytagform").attr('action', '/images/'+imageid+'/tags');
+        });
+    });
+ </script>    
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Tags</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <div class="modal-body">
+                        <script type="text/javascript">
+                        function onAddTag(tag) {
+                        alert("Added a tag: " + tag);
+                        }
+                        function onRemoveTag(tag) {
+                        alert("Removed a tag: " + tag);
+                        }
+
+                        function onChangeTag(input,tag) {
+                        alert("Changed a tag: " + tag);
+                        }
+                    $(function(){
+                        $('#tags_1').tagsInput({width:'auto'});                      
+                    });
+                    </script>
+                <form  method="post" data-remote="true" class="mytagform">
+                        <p><label>Defaults:</label>
+                    <input name="tag_name" id="tags_1" type="text" class="tags" value="" /></p>
+                    <input type="hidden" name="blob_id" class="blob">
+                    <input type="submit" value="Save" class="btn btn-success" data-disable-with="Save " />
+                </form>
+                                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="mytagBtn">Save changes</button>
+                    </div>                
+                    </div>
+        </div>
+    </div>
+<script>
+    $(document).ready(function()
+     {
+         
+        $('#mytagBtn').click(function()
+            {
+                
+                var blob_value = $(".blob").val();
+                var a=$("#tags_1").val();
+                $.ajax({
+                type: "POST",
+                url: "/albums/tagged_photo",
+                data:{tagged: a, blob_id:blob_value},
+                dataType:'json' ,
+                cache: false,
+                success: function(data){
+                $("#exampleModalCenter").modal('hide');
+                setTimeout(function () { location.reload() }, 1000); 
+                }
+                
+            });
+              
+        });
+    });
+</script>

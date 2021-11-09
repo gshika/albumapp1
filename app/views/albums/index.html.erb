@@ -1,0 +1,38 @@
+<div id="table">
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Show</th>
+        </tr>
+    <thead>
+    <% @albums.each do |album| %>
+    <tr>
+    <td>
+    <%= album.name%>
+    </td>
+        <td> <%= album.description %></td>
+        <td id="edit"> <%= link_to "Edit", edit_album_path(album) %> 
+        </td>
+        <td id="delete">
+        <%= link_to "Delete", album_path(album), method: :delete%> 
+        </td>
+        <td id="show">
+        <%= link_to "show", album_path(album)%> 
+        </td>
+    </tr>
+    <% end %>
+    </table>
+
+    <div id="new">
+    <%= link_to "New Album", new_album_path %> <br>
+    </div>
+</div>
+
+
+
+
+

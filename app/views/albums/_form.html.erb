@@ -1,0 +1,44 @@
+
+<div class="row-fluid">
+  <div class="span4 well">
+ <%= form_with model: @album  do |form| %>
+    <div class="control-group">
+        <%= form.label :name ,:class => "control-label" %><br>
+        <%= form.text_field :name ,:class => "input-group input-group-lg"%>
+        <% @album.errors.full_messages_for(:name).each do|message| %>
+        <div>
+          <%= message %>
+        </div>
+        <% end %>
+    </div><br/>
+    <div class="control-group">
+        <%= form.label :description ,:class => "control-label"%><br>
+        <%= form.text_field :description ,:class => "input-group input-group-lg"%>
+         <% @album.errors.full_messages_for(:description).each do|message| %>
+        <div>
+          <%= message %>
+        </div>
+       <% end %>
+    </div>
+    <br>
+    <strong><label>Photos:</label></strong><br>
+    <% if @album.images.attached? %>
+    <% @album.images.each do |image| %>
+    <%= image_tag image, width: "200px" , height: "200px" %>
+    <% end %>
+    <% end %>
+</p>
+    <div class="control-group">
+        <%= form.label :EditImage %><br>
+        <%= form.file_field :images, multiple: true %>
+         <% @album.errors.full_messages_for(:images).each do|message| %>
+        <div>
+          <%= message %>
+        </div>
+       <% end %>
+    </div>
+    <br>
+    <%= form.submit class: 'btn btn-success' %>
+ <% end %>
+</div>
+</div>
