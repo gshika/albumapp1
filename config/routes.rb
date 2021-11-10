@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root to: "user#index"
   resources :albums do
     member do
-      delete :delete_image_attachment
+      delete :remove_attachment
     end
     collection do
       post :tagged_photo

@@ -35,8 +35,8 @@ class AlbumsController < ApplicationController
         redirect_to root_path
         end
     end
-    def delete_image_attachment
-        @image = ActiveStorage::Attachment.find(params[:id])
+    def remove_attachment
+        @image = ActiveStorage::Attachment.find(params[:image_id])
         @image.purge
         if @image.destroy
         redirect_to root_path
