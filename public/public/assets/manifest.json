@@ -1,0 +1,14 @@
+{
+  "application.js": "/public/assets/js/application-bd07432de585b84a9f21.js",
+  "application.js.map": "/public/assets/js/application-bd07432de585b84a9f21.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/public/assets/js/application-bd07432de585b84a9f21.js"
+      ],
+      "js.map": [
+        "/public/assets/js/application-bd07432de585b84a9f21.js.map"
+      ]
+    }
+  }
+}
