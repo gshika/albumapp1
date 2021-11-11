@@ -1,6 +1,9 @@
 {
   "name": "albums",
   "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
     "@popperjs/core": "^2.10.2",
